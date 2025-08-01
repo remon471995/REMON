@@ -598,10 +598,24 @@
             let arrivalDatePart = null; 
 
             // Step 1: Extract basic info - Segment Number, Airline Code, Flight Number, Booking Class
-            result.segmentNumber = parts[0]; 
-            airlineCode = parts[1]; 
-            flightNumber = parts[2]; 
-            result.bookingClass = parts[3]; 
+            
+result.segmentNumber = parts[0];
+
+let startIndex = 0;
+
+// Detect if airline code and flight number are merged (like QR1077)
+if (/^[A-Z]{2}\d{3,4}$/i.test(parts[1])) {
+    airlineCode = parts[1].substring(0, 2);
+    flightNumber = parts[1].substring(2);
+    result.bookingClass = parts[2];
+    startIndex = 3;
+} else {
+    airlineCode = parts[1];
+    flightNumber = parts[2];
+    result.bookingClass = parts[3];
+    startIndex = 4;
+}
+ 
 
             console.log("Initial extraction - Airline:", airlineCode, "Flight#:", flightNumber, "Booking Class:", result.bookingClass);
 
