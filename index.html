@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amadeus Smart Converter Pro</title>
+    <title>Amadeus Converter Ultimate</title>
     <style>
         /* --- General Styles --- */
         body {
@@ -28,32 +28,20 @@
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            box-sizing: border-box;
             display: block;
         }
         .login-container h1 {
             color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 2em;
         }
-        .login-form-group { margin-bottom: 20px; }
-        .login-container label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-            font-size: 1.1em;
-        }
-        .login-container input[type="text"],
-        .login-container input[type="password"] {
-            width: calc(100% - 22px);
+        .login-container input {
+            width: 100%;
             padding: 12px;
+            margin-bottom: 15px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 16px;
             box-sizing: border-box;
-            background-color: #fcfcfc;
         }
         .login-container button {
             background-color: #007bff;
@@ -61,30 +49,20 @@
             padding: 12px 25px;
             border: none;
             border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
             width: 100%;
-            margin-top: 30px;
+            cursor: pointer;
+            font-size: 16px;
         }
         .login-container button:hover { background-color: #0056b3; }
-        .contact-info {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            text-align: center;
-            color: #666;
-            font-size: 0.95em;
-        }
         .message {
             margin-top: 20px;
             padding: 10px;
             border-radius: 5px;
             text-align: center;
-            font-weight: bold;
             display: none;
         }
-        .message.error { background-color: #ffeaea; color: #dc3545; border: 1px solid #dc3545; }
-        .message.success { background-color: #e6ffe6; color: #28a745; border: 1px solid #28a745; }
+        .message.error { background-color: #ffeaea; color: #dc3545; }
+        .message.success { background-color: #e6ffe6; color: #28a745; }
 
         /* --- Converter Tool Styles --- */
         .converter-container {
@@ -98,85 +76,70 @@
             display: none;
             direction: ltr;
         }
-        .converter-container h1, .converter-container h2 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .converter-container .form-group { margin-bottom: 20px; }
-        .converter-container label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
+        .converter-container h1 { color: #2c3e50; text-align: center; margin-bottom: 30px; }
         .converter-container textarea {
-            width: calc(100% - 22px);
+            width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
             box-sizing: border-box;
-            background-color: #fcfcfc;
             min-height: 100px;
             resize: vertical;
         }
-        .converter-container .button-group {
+        .button-group {
             display: flex;
             justify-content: center;
             gap: 15px;
             margin-top: 30px;
-            flex-wrap: wrap;
         }
         .converter-container button {
             background-color: #007bff;
             color: white;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
-            font-size: 18px;
             cursor: pointer;
+            font-size: 16px;
         }
-        .converter-container button:hover { background-color: #0056b3; }
         .converter-container button.clear-button { background-color: #6c757d; }
-        .converter-container button.clear-button:hover { background-color: #5a6268; }
         .converter-container button.copy-button { background-color: #28a745; }
-        .converter-container button.copy-button:hover { background-color: #218838; }
 
         /* --- Results Styles --- */
-        .results-section {
-            margin-top: 40px;
-            border-top: 1px solid #eee;
-            padding-top: 30px;
-        }
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        #resultsOutput[contenteditable="true"] {
-            outline: none;
-        }
-        #resultsOutput[contenteditable="true"]:focus {
-            background-color: #fffef8;
-            border-radius: 5px;
-        }
-
         .flight-segment {
             background-color: #f9f9f9;
             border: 1px solid #e0e0e0;
             border-radius: 6px;
             padding: 15px 20px;
-            margin-bottom: 20px;
+            margin-bottom: 10px; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             line-height: 1.8;
             direction: rtl;
             font-size: 16px;
             text-align: right;
         }
-        .flight-segment p { margin: 0; padding: 2px 0; }
+        
+        /* Transit Box Style */
+        .transit-box {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            padding: 8px 15px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9em;
+            direction: rtl;
+            border: 1px dashed #90caf9;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .transit-box.warning {
+            background-color: #ffebee;
+            color: #c62828;
+            border-color: #ef9a9a;
+        }
 
         .disclaimer-box {
             background-color: #fff3cd;
@@ -189,27 +152,17 @@
             text-align: right;
             font-size: 0.95em;
         }
-        .disclaimer-box p {
-            margin: 5px 0;
-            font-weight: 600;
-        }
-
-        .error-message {
-            color: #dc3545;
-            background-color: #ffeaea;
-            border: 1px solid #dc3545;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            margin-top: 20px;
-        }
+        
+        #resultsOutput[contenteditable="true"] { outline: none; }
+        #resultsOutput[contenteditable="true"]:focus { background-color: #fffef8; }
+        
         .copy-feedback {
             text-align: center;
             color: #28a745;
             margin-top: 10px;
             font-weight: bold;
             opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+            transition: opacity 0.3s;
         }
         .copy-feedback.show { opacity: 1; }
     </style>
@@ -218,33 +171,22 @@
 
     <div id="loginPage" class="login-container">
         <h1>Login</h1>
-        <div class="login-form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Enter username">
-        </div>
-        <div class="login-form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter password">
-        </div>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
         <button id="loginButton">Login</button>
         <div id="loginMessage" class="message"></div>
-        <div class="contact-info">
-            <p>For inquiries, please contact:</p>
-            <p><strong>Name:</strong> Remon</p>
-            <p><strong>Mobile:</strong> +201222880819</p>
+        <div style="text-align:center; margin-top:20px; color:#666; font-size:0.9em;">
+            <p><strong>Remon</strong> | +201222880819</p>
         </div>
     </div>
 
     <div id="converterToolPage" class="converter-container">
         <h1>AMADEUS Converter</h1>
-        <p style="text-align: center; color: #666;">
-            Enter one or more Amadeus segments (each segment on a new line).
-        </p>
-
         <div class="form-group">
-            <label for="amadeusSegments">Amadeus Segments:</label>
+            <label style="font-weight:bold; display:block; margin-bottom:8px;">Amadeus Segments:</label>
             <textarea id="amadeusSegments" rows="5" placeholder="Example:
-1 EY 656 E 30SEP 2*KWIAUH DK1 1610 1850 30SEP E 0 320 R"></textarea>
+1 MS 985 K 20OCT CAIJFK HK1 1000 1500
+2 MS 986 K 25OCT JFKCAI HK1 1800 1100+1"></textarea>
         </div>
 
         <div class="button-group">
@@ -252,18 +194,18 @@
             <button id="clearInputButton" class="clear-button">Clear Input</button>
         </div>
 
-        <div class="results-section">
-            <div class="results-header">
-                <h2>Converted Results</h2>
-                <div class="button-group" style="margin-top: 0; margin-bottom: 0; gap: 10px;">
-                    <button id="copyResultsButton" class="copy-button" style="padding: 8px 15px; font-size: 16px;">Copy</button>
-                    <button id="clearResultsButton" class="clear-button" style="padding: 8px 15px; font-size: 16px;">Clear Results</button>
+        <div style="margin-top:40px; border-top:1px solid #eee; padding-top:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h2 style="margin:0;">Results</h2>
+                <div style="display:flex; gap:10px;">
+                    <button id="copyResultsButton" class="copy-button" style="padding:5px 15px;">Copy</button>
+                    <button id="clearResultsButton" class="clear-button" style="padding:5px 15px;">Clear</button>
                 </div>
             </div>
-            <div id="copyFeedback" class="copy-feedback">Copied successfully!</div>
+            <div id="copyFeedback" class="copy-feedback">Copied!</div>
             
-            <div id="resultsOutput" contenteditable="true" style="padding: 5px; border: 1px dashed transparent;">
-                <p style="text-align: center; color: #888;">Results will appear here after conversion.</p>
+            <div id="resultsOutput" contenteditable="true" style="padding:5px; border:1px dashed transparent;">
+                <p style="text-align:center; color:#888;">Results will appear here...</p>
             </div>
         </div>
     </div>
@@ -278,27 +220,25 @@
             const p = document.getElementById('password').value;
             const msg = document.getElementById('loginMessage');
             msg.style.display = 'none';
-            msg.classList.remove('error', 'success');
 
             if (u === 'Remon' && p === 'Asd12345@#') {
-                msg.classList.add('success');
-                msg.textContent = 'Login successful! Redirecting...';
+                msg.className = 'message success';
+                msg.textContent = 'Login successful!';
                 msg.style.display = 'block';
                 setTimeout(() => {
                     loginPage.style.display = 'none';
                     converterToolPage.style.display = 'block';
-                    document.body.style.justifyContent = 'flex-start';
                     document.body.style.alignItems = 'flex-start';
-                    document.body.style.margin = '20px';
+                    document.body.style.paddingTop = '40px';
                 }, 1000);
             } else {
-                msg.classList.add('error');
-                msg.textContent = 'Incorrect username or password.';
+                msg.className = 'message error';
+                msg.textContent = 'Incorrect credentials.';
                 msg.style.display = 'block';
             }
         });
 
-        // --- FULL DATABASE: Airlines & Airports ---
+        // --- EXTENDED DATABASE: Airlines & Airports ---
         const airlines = {
             "TK": "الخطوط التركية", "FZ": "فلاي دبي", "SV": "الخطوط السعودية", "MS": "مصر للطيران",
             "QR": "الخطوط القطرية", "EK": "طيران الإمارات", "WY": "الطيران العماني", "RJ": "الملكية الأردنية",
@@ -480,197 +420,140 @@
             "FX": "فيديكس إكسبرس", "UPS": "يو بي إس ايرلاينز", "PO": "بوينغ ايرلاينز"
         };
 
-        // --- Helper Functions ---
+        // --- Helpers ---
         function formatTime12Hour(time24) {
-            if (!time24 || time24.length !== 4) return 'غير محدد';
-            let h = parseInt(time24.substring(0, 2), 10);
+            if (!time24 || time24.length !== 4) return '';
+            let h = parseInt(time24.substring(0, 2));
             const m = time24.substring(2, 4);
-            const ampm = h >= 12 ? 'مساءً' : 'صباحًا';
+            const ap = h >= 12 ? 'م' : 'ص';
             h = h % 12 || 12;
-            return `${h.toString().padStart(2, '0')}:${m} ${ampm}`;
+            return `${h}:${m} ${ap}`;
         }
-        function getDayName(d) {
-            return ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'][d.getDay()];
-        }
-        function getMonthName(m) {
-            const months = {'JAN':'يناير','FEB':'فبراير','MAR':'مارس','APR':'أبريل','MAY':'مايو','JUN':'يونيو','JUL':'يوليو','AUG':'أغسطس','SEP':'سبتمبر','OCT':'أكتوبر','NOV':'نوفمبر','DEC':'ديسمبر'};
-            return months[m.toUpperCase()] || m;
-        }
-        function getMonthNumber(code) {
-            return {'JAN':0,'FEB':1,'MAR':2,'APR':3,'MAY':4,'JUN':5,'JUL':6,'AUG':7,'SEP':8,'OCT':9,'NOV':10,'DEC':11}[code.toUpperCase()];
-        }
-        function getMonthCode(n) {
-            return ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][n];
-        }
+        function getDayName(d) { return ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][d.getDay()]; }
+        function getMonthName(m) { return {'JAN':'يناير','FEB':'فبراير','MAR':'مارس','APR':'أبريل','MAY':'مايو','JUN':'يونيو','JUL':'يوليو','AUG':'أغسطس','SEP':'سبتمبر','OCT':'أكتوبر','NOV':'نوفمبر','DEC':'ديسمبر'}[m] || m; }
+        function getMonthNumber(c) { return {'JAN':0,'FEB':1,'MAR':2,'APR':3,'MAY':4,'JUN':5,'JUL':6,'AUG':7,'SEP':8,'OCT':9,'NOV':10,'DEC':11}[c]; }
+        function getMonthCode(n) { return ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][n]; }
 
-        // --- Parsing Function ---
-        function parseAmadeusSegment(str) {
+        function parseSegment(str) {
             const res = { raw: str };
             const parts = str.trim().split(/\s+/);
-            if (parts.length < 5) { res.error = "Invalid format"; return res; }
+            if(parts.length < 5) { res.error = true; return res; }
 
-            let airline, flight, datePart, route, depTime, arrTime, arrDatePart;
+            // Logic to find components
+            let airline, flight, datePart, route, times = [];
             
-            // Extract Airline/Flight
-            if (/^[A-Z]{2}\d{3,4}$/i.test(parts[1])) {
-                airline = parts[1].substring(0,2);
-                flight = parts[1].substring(2);
-            } else {
-                airline = parts[1];
-                flight = parts[2];
+            if(/^[A-Z]{2}\d{3,4}$/i.test(parts[1])) { airline=parts[1].substring(0,2); flight=parts[1].substring(2); } 
+            else { airline=parts[1]; flight=parts[2]; }
+
+            for(let p of parts) {
+                if(/\d{2}[A-Z]{3}/i.test(p) && !datePart) datePart = p.toUpperCase();
+                if(!route && /^(?:[0-9]+\*)?([A-Z]{6})$/i.test(p)) route = p.match(/([A-Z]{6})$/i)[1];
+                if(/\b\d{4}\b/.test(p)) times.push(p);
             }
 
-            // Find Date (DDMMM)
-            for (let p of parts) if (/\d{2}[A-Z]{3}/i.test(p)) { datePart = p.toUpperCase(); break; }
-            
-            // Find Route and Times
-            let times = [];
-            for (let i = 0; i < parts.length; i++) {
-                const p = parts[i];
-                if (!route && /^(?:[0-9]+\*)?([A-Z]{6})$/i.test(p)) route = p.match(/([A-Z]{6})$/i)[1];
-                if (/\b\d{4}\b/.test(p)) times.push(p);
-            }
+            if(!datePart || !route || times.length < 2) { res.error = true; return res; }
 
-            if (!airline || !flight || !datePart || !route || times.length < 2) {
-                res.error = "Missing Data"; return res;
-            }
-
-            res.airlineName = airlines[airline.toUpperCase()] || airline;
-            res.flight = flight;
+            res.airline = airlines[airline] || airline;
             res.origin = route.substring(0,3);
             res.dest = route.substring(3,6);
             res.originName = airports[res.origin] || res.origin;
             res.destName = airports[res.dest] || res.dest;
             res.depTime = times[0];
             res.arrTime = times[1];
-
-            // Explicit Arrival Date Logic (if extracted from raw string)
-            for (let i = parts.length - 1; i >= 0; i--) {
-                const p = parts[i].toUpperCase();
-                if (/\d{2}[A-Z]{3}/.test(p) && p !== datePart) {
-                    let lastTimeIndex = parts.lastIndexOf(times[times.length - 1]);
-                    if (i > lastTimeIndex) { arrDatePart = p; break; }
-                }
-            }
-
-            // Date Logic
+            
+            // Date Calc
             const day = parseInt(datePart.substring(0,2));
-            const monthCode = datePart.substring(2,5);
+            const month = datePart.substring(2,5);
             const now = new Date();
             let year = now.getFullYear();
-            let checkDate = new Date(year, getMonthNumber(monthCode), day);
-            if (checkDate < now.setHours(0,0,0,0)) year++; // Next year if date passed
-
-            res.depDateObj = new Date(year, getMonthNumber(monthCode), day);
+            if(new Date(year, getMonthNumber(month), day) < now.setHours(0,0,0,0)) year++;
             
-            // Arrival Date Calc
-            let arrivalYear = year;
-            let arrivalDay = day;
-            let arrivalMonthCode = monthCode;
-
-            if (arrDatePart) {
-                // If explicit arrival date exists
-                const aDay = parseInt(arrDatePart.substring(0,2));
-                const aMonth = arrDatePart.substring(2,5);
-                const depDateFull = new Date(year, getMonthNumber(monthCode), day, parseInt(res.depTime.substring(0,2)), parseInt(res.depTime.substring(2,4)));
-                const arrDateCheck = new Date(year, getMonthNumber(aMonth), aDay, parseInt(res.arrTime.substring(0,2)), parseInt(res.arrTime.substring(2,4)));
-                
-                if (arrDateCheck < depDateFull) arrivalYear++; // Rollover year
-                arrivalDay = aDay;
-                arrivalMonthCode = aMonth;
-            } else {
-                // Implicit (Overnight)
-                const depH = parseInt(res.depTime.substring(0,2));
-                const arrH = parseInt(res.arrTime.substring(0,2));
-                let arrObj = new Date(year, getMonthNumber(monthCode), day, arrH, parseInt(res.arrTime.substring(2,4)));
-                
-                // Compare times on same day. If arrival < dep, it's next day
-                let depObj = new Date(year, getMonthNumber(monthCode), day, depH, parseInt(res.depTime.substring(2,4)));
-                
-                if (arrObj < depObj) {
-                    arrObj.setDate(arrObj.getDate() + 1);
-                    arrivalDay = arrObj.getDate();
-                    arrivalMonthCode = getMonthCode(arrObj.getMonth());
-                    arrivalYear = arrObj.getFullYear();
-                }
+            res.depDateObj = new Date(year, getMonthNumber(month), day, parseInt(res.depTime.substring(0,2)), parseInt(res.depTime.substring(2,4)));
+            
+            // Arr Date (Overnight logic)
+            let depH = parseInt(res.depTime.substring(0,2));
+            let arrH = parseInt(res.arrTime.substring(0,2));
+            res.arrDateObj = new Date(year, getMonthNumber(month), day, arrH, parseInt(res.arrTime.substring(2,4)));
+            if(res.arrDateObj < res.depDateObj) {
+                res.arrDateObj.setDate(res.arrDateObj.getDate() + 1);
             }
 
-            // Formatting
-            const arrDateObjFinal = new Date(arrivalYear, getMonthNumber(arrivalMonthCode), arrivalDay);
-            
-            res.fmtDepDate = `${getDayName(res.depDateObj)} ${day} ${getMonthName(monthCode)} ${year}`;
-            res.fmtArrDate = `${getDayName(arrDateObjFinal)} ${arrivalDay} ${getMonthName(arrivalMonthCode)} ${arrivalYear}`;
-            res.fmtDepTime = formatTime12Hour(res.depTime);
-            res.fmtArrTime = formatTime12Hour(res.arrTime);
+            res.fmtDep = `${getDayName(res.depDateObj)} ${day} ${getMonthName(month)} ${year}`;
+            res.fmtArr = `${getDayName(res.arrDateObj)} ${res.arrDateObj.getDate()} ${getMonthName(getMonthCode(res.arrDateObj.getMonth()))} ${res.arrDateObj.getFullYear()}`;
+            res.fmtDepT = formatTime12Hour(res.depTime);
+            res.fmtArrT = formatTime12Hour(res.arrTime);
 
             return res;
         }
 
-        // --- Event Listeners ---
-        document.getElementById('convertButton').addEventListener('click', function() {
-            const input = document.getElementById('amadeusSegments').value;
+        document.getElementById('convertButton').addEventListener('click', () => {
+            const lines = document.getElementById('amadeusSegments').value.trim().split('\n').filter(l => l.trim());
             const output = document.getElementById('resultsOutput');
-            const lines = input.trim().split('\n').filter(l => l.trim());
-            
             output.innerHTML = '';
-            
-            if (lines.length === 0) { 
-                output.innerHTML = '<p class="info-message">Please enter segments.</p>'; 
-                return; 
-            }
 
-            let finalHtml = '';
-            let hasError = false;
+            if(!lines.length) { output.innerHTML = '<p style="text-align:center">Please enter segments.</p>'; return; }
 
-            lines.forEach(line => {
-                const data = parseAmadeusSegment(line);
-                if (data.error) {
-                    finalHtml += `<div class="error-message">Error: ${line}</div>`;
-                    hasError = true;
-                } else {
-                    finalHtml += `
-                    <div class="flight-segment">
-                        <p>✈️ <strong>شركة الطيران:</strong> ${data.airlineName}</p>
-                        <p>🛫 <strong>من:</strong> ${data.originName} (${data.origin}) - 🛬 <strong>إلى:</strong> ${data.destName} (${data.dest})</p>
-                        <p>📅 <strong>المغادرة:</strong> ${data.fmtDepTime}، ${data.fmtDepDate}</p>
-                        <p>📅 <strong>الوصول:</strong> ${data.fmtArrTime}، ${data.fmtArrDate}</p>
-                        <p style="margin-top:10px; border-top:1px dashed #ccc; padding-top:5px;">
-                           🧳 <strong>الوزن المسموح:</strong> ..............................
-                        </p>
-                    </div>`;
+            let segments = [];
+            lines.forEach(l => {
+                const s = parseSegment(l);
+                if(!s.error) segments.push(s);
+            });
+
+            let html = '';
+            for(let i=0; i<segments.length; i++) {
+                const s = segments[i];
+                
+                // Transit Calculation Check
+                if (i > 0) {
+                    const prev = segments[i-1];
+                    if (prev.dest === s.origin) {
+                        const diffMs = s.depDateObj - prev.arrDateObj;
+                        if(diffMs > 0) {
+                            const diffHrs = Math.floor(diffMs / 3600000);
+                            const diffMins = Math.round((diffMs % 3600000) / 60000);
+                            
+                            let warningClass = '';
+                            if (diffHrs < 2) warningClass = 'warning'; 
+
+                            html += `<div class="transit-box ${warningClass}">
+                                ⏳ مدة الانتظار في ${s.originName} (${s.origin}): ${diffHrs} ساعة و ${diffMins} دقيقة
+                            </div>`;
+                        }
+                    }
                 }
-            });
 
-            if (!hasError || lines.length > 0) {
-                 finalHtml += `
-                    <div class="disclaimer-box">
-                        <p>🔴 السعر والإمكانية غير ثابتين لحين إتمام الحجز.</p>
-                        <p>🕒 التواجد قبل الرحلة بـ 3 ساعات على الأقل.</p>
-                        <p>🚫 الحجز غير قابل للتعديل وغير مسترد.</p>
-                    </div>
-                `;
+                html += `
+                <div class="flight-segment">
+                    <p>✈️ <strong>الطيران:</strong> ${s.airline}</p>
+                    <p>🛫 <strong>من:</strong> ${s.originName} (${s.origin}) - 🛬 <strong>إلى:</strong> ${s.destName} (${s.dest})</p>
+                    <p>📅 <strong>المغادرة:</strong> ${s.fmtDepT}، ${s.fmtDep}</p>
+                    <p>📅 <strong>الوصول:</strong> ${s.fmtArrT}، ${s.fmtArr}</p>
+                    <p style="margin-top:8px; border-top:1px dashed #ccc; padding-top:5px; font-size:0.9em;">
+                       🧳 <strong>الوزن المسموح:</strong> ....................
+                    </p>
+                </div>`;
             }
 
-            output.innerHTML = finalHtml;
+            html += `
+                <div class="disclaimer-box">
+                    <p>🔴 السعر والإمكانية غير ثابتين لحين إتمام الحجز.</p>
+                    <p>🕒 التواجد قبل الرحلة بـ 3 ساعات على الأقل.</p>
+                    <p>🚫 الحجز غير قابل للتعديل وغير مسترد.</p>
+                </div>
+            `;
+
+            output.innerHTML = html;
         });
 
-        document.getElementById('clearInputButton').addEventListener('click', () => {
-            document.getElementById('amadeusSegments').value = '';
-        });
-
-        document.getElementById('clearResultsButton').addEventListener('click', () => {
-            document.getElementById('resultsOutput').innerHTML = '<p style="text-align: center; color: #888;">Results will appear here after conversion.</p>';
-        });
-
-        document.getElementById('copyResultsButton').addEventListener('click', () => {
-            const text = document.getElementById('resultsOutput').innerText;
-            navigator.clipboard.writeText(text).then(() => {
+        // Copy/Clear Handlers
+        document.getElementById('clearInputButton').onclick = () => document.getElementById('amadeusSegments').value = '';
+        document.getElementById('clearResultsButton').onclick = () => document.getElementById('resultsOutput').innerHTML = '<p style="text-align:center;color:#888">Results here...</p>';
+        document.getElementById('copyResultsButton').onclick = () => {
+            navigator.clipboard.writeText(document.getElementById('resultsOutput').innerText).then(() => {
                 const fb = document.getElementById('copyFeedback');
-                fb.classList.add('show');
-                setTimeout(() => fb.classList.remove('show'), 2000);
+                fb.classList.add('show'); setTimeout(()=>fb.classList.remove('show'),2000);
             });
-        });
+        };
     </script>
 </body>
 </html>
-
