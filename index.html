@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amadeus Converter Ultimate</title>
+    <title>Amadeus Converter Ultimate (Mega DB)</title>
     <style>
         /* --- General Styles --- */
         body {
@@ -238,7 +238,7 @@
             }
         });
 
-        // --- EXTENDED DATABASE: Airlines & Airports ---
+        // --- FULL MEGA DATABASE: Airlines & Airports ---
         const airlines = {
             "TK": "الخطوط التركية", "FZ": "فلاي دبي", "SV": "الخطوط السعودية", "MS": "مصر للطيران",
             "QR": "الخطوط القطرية", "EK": "طيران الإمارات", "WY": "الطيران العماني", "RJ": "الملكية الأردنية",
@@ -425,7 +425,7 @@
             if (!time24 || time24.length !== 4) return '';
             let h = parseInt(time24.substring(0, 2));
             const m = time24.substring(2, 4);
-            const ap = h >= 12 ? 'م' : 'ص';
+            const ampm = h >= 12 ? 'م' : 'ص';
             h = h % 12 || 12;
             return `${h}:${m} ${ap}`;
         }
@@ -503,12 +503,14 @@
             for(let i=0; i<segments.length; i++) {
                 const s = segments[i];
                 
-                // Transit Calculation Check
+                // Transit Calculation Check - Modified to ignore stays > 24 hours
                 if (i > 0) {
                     const prev = segments[i-1];
                     if (prev.dest === s.origin) {
                         const diffMs = s.depDateObj - prev.arrDateObj;
-                        if(diffMs > 0) {
+                        
+                        // FIX: Only show transit if less than 24 hours (86400000 ms)
+                        if(diffMs > 0 && diffMs < 86400000) {
                             const diffHrs = Math.floor(diffMs / 3600000);
                             const diffMins = Math.round((diffMs % 3600000) / 60000);
                             
