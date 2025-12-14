@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amadeus Converter Ultimate (Mega DB)</title>
+    <title>Amadeus Converter Ultimate</title>
     <style>
         /* --- General Styles --- */
         body {
@@ -238,7 +238,7 @@
             }
         });
 
-        // --- FULL MEGA DATABASE: Airlines & Airports ---
+        // --- FULL DATABASE: Airlines ---
         const airlines = {
             "TK": "الخطوط التركية", "FZ": "فلاي دبي", "SV": "الخطوط السعودية", "MS": "مصر للطيران",
             "QR": "الخطوط القطرية", "EK": "طيران الإمارات", "WY": "الطيران العماني", "RJ": "الملكية الأردنية",
@@ -308,6 +308,7 @@
             "FX": "فيديكس إكسبرس", "UPS": "يو بي إس ايرلاينز", "PO": "بوينغ ايرلاينز"
         };
 
+        // --- FULL DATABASE: Airports ---
         const airports = {
             "DXB": "دبي الدولي (الإمارات)", "KWI": "الكويت الدولي (الكويت)", "JED": "جدة الملك عبد العزيز الدولي (السعودية)",
             "DOH": "الدوحة حمد الدولي (قطر)", "RUH": "الرياض الملك خالد الدولي (السعودية)", "AUH": "أبو ظبي الدولي (الإمارات)",
@@ -412,12 +413,7 @@
             "WLG": "ويلينغتون (نيوزيلندا)", "PPT": "بابيتي فآ الدولي (بولينيزيا الفرنسية)",
             "NAN": "نادي الدولي (فيجي)", "APW": "أبيا فاليولو الدولي (ساموا)",
             "POM": "بورت مورسبي جاكسون الدولي (بابوا غينيا الجديدة)",
-            "ADD": "أديس أبابا بول الدولي (إثيوبيا)", 
-            "SA": "الخطوط الجوية لجنوب أفريقيا", "KQ": "الخطوط الكينية", "HM": "طيران سيشل",
-            "MK": "طيران موريشيوس", "WB": "رواند إير (رواندا)", "DT": "تاغ أنغولا (أنجولا)",
-            "TM": "الخطوط الجوية الموزمبيقية", "QZ": "جنوب أفريقيا إكسبرس (جنوب أفريقيا - توقفت لكن معروفة)",
-            "VN": "خطوط جنوب أفريقيا إكسبرس (جنوب أفريقيا - توقفت)", "W3": "أزول لينهاس آيرياس (برازيلية - لكن رموز IATA قد تكون مضللة)",
-            "FX": "فيديكس إكسبرس", "UPS": "يو بي إس ايرلاينز", "PO": "بوينغ ايرلاينز"
+            "ADD": "أديس أبابا بول الدولي (إثيوبيا)" 
         };
 
         // --- Helpers ---
@@ -503,7 +499,7 @@
             for(let i=0; i<segments.length; i++) {
                 const s = segments[i];
                 
-                // Transit Calculation Check - Modified to ignore stays > 24 hours
+                // Transit Calculation Check - FIX: Ignore stays > 24 hours
                 if (i > 0) {
                     const prev = segments[i-1];
                     if (prev.dest === s.origin) {
