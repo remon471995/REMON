@@ -107,6 +107,13 @@
 
     <div class="options-row">
       <div>
+        <label>شكل العرض</label>
+        <select id="viewMode">
+          <option value="compact">مختصر</option>
+          <option value="full">مفصل</option>
+        </select>
+      </div>
+      <div>
         <label>الشنطة المشحونة</label>
         <select id="baggageSelect">
           <option value="auto">حسب الشركة (تقديري)</option>
@@ -538,6 +545,57 @@
       return groups.map((_, i) => `الرحلة ${i+1}`);
     }
 
+    // فرق الأيام بين المغادرة والوصول
+    function dayDiff(a, b){
+      const d1 = new Date(a.getFullYear(), a.getMonth(), a.getDate());
+      const d2 = new Date(b.getFullYear(), b.getMonth(), b.getDate());
+      return Math.round((d2 - d1) / 86400000);
+    }
+
+    // العرض المختصر: كارت واحد لكل رحلة
+    function compactTrip(g, bagChoice){
+      const sameAir = g.every(s => s.airlineCode === g[0].airlineCode);
+      let rows = '';
+      if(sameAir) rows += `<p>✈️ <strong>${g[0].airline}</strong></p>`;
+
+      let lastDate = '';
+      g.forEach((s, i) => {
+        if(i > 0){
+          const prev = g[i-1];
+          if(prev.dest === s.origin){
+            const diffMs = s.depDateObj - prev.arrDateObj;
+            if(diffMs > 0 && diffMs < 86400000){
+              const h = Math.floor(diffMs/3600000);
+              const m = Math.round((diffMs%3600000)/60000);
+              rows += `<p>⏳ انتظار ${h} س ${m} د في ${shortName(s.originName)}</p>`;
+            }
+          }
+        }
+
+        const dateShort = `${getDayName(s.depDateObj)} ${s.depDateObj.getDate()} ${getMonthName(getMonthCode(s.depDateObj.getMonth()))}`;
+        const showDate = dateShort !== lastDate;
+        lastDate = dateShort;
+
+        const dd = dayDiff(s.depDateObj, s.arrDateObj);
+        const next = dd > 0 ? ` (+${dd})` : '';
+        const head = sameAir ? '' : `<strong>${s.airline}</strong> | `;
+
+        rows += `<p>${sameAir ? '🛫' : '✈️'} ${head}${shortName(s.originName)} ← ${shortName(s.destName)}${showDate ? ' | ' + dateShort : ''} | ${s.fmtDepT} ← ${s.fmtArrT}${next}</p>`;
+      });
+
+      // الشنطة: مرة واحدة لو واحدة لكل القطع
+      const texts = g.map(s => baggageText(s.airlineCode, bagChoice));
+      if(texts.every(t => t === texts[0])){
+        rows += `<p>${texts[0]}</p>`;
+      } else {
+        g.forEach((s, i) => {
+          rows += `<p>🧳 ${s.origin}←${s.dest}: ${texts[i].replace('🧳 ','')}</p>`;
+        });
+      }
+
+      return `<div class="flight-segment">${rows}</div>`;
+    }
+
     // ---------------- Convert ----------------
     document.getElementById('convertButton').addEventListener('click', () => {
       const lines = document.getElementById('amadeusSegments').value
@@ -579,6 +637,7 @@
       }
 
       const bagChoice = document.getElementById('baggageSelect').value;
+      const viewMode = document.getElementById('viewMode').value;
       const pax   = document.getElementById('paxInput').value.trim();
       const price = document.getElementById('priceInput').value.trim();
 
@@ -587,6 +646,11 @@
 
       groups.forEach((g, gi) => {
         if(labels[gi]) html += `<div class="trip-label"><strong>${labels[gi]}</strong></div>`;
+
+        if(viewMode === 'compact'){
+          html += compactTrip(g, bagChoice);
+          return;
+        }
 
         g.forEach((s, i) => {
           // انتظار قصير (أقل من 24 ساعة، نفس المطار)
@@ -607,7 +671,7 @@
 
           html += `
             <div class="flight-segment">
-              <p>✈️ <strong>${s.airline}</strong> (${s.airlineCode}${s.flightNo})</p>
+              <p>✈️ <strong>${s.airline}</strong></p>
               <p>🛫 ${shortName(s.originName)} (${s.origin}) ← ${shortName(s.destName)} (${s.dest})</p>
               <p>📅 ${s.fmtDep}</p>
               <p>🕒 ${s.fmtDepT} ← ${s.fmtArrT}${arrExtra}</p>
